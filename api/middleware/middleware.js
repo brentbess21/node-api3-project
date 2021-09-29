@@ -2,7 +2,8 @@ const User = require('../users/users-model');
 
 function logger(req, res, next) {
   // DO YOUR MAGIC
-  console.log(`There was a ${req.method} request at ${req.originalUrl} at ${Date.now}`)
+  const timeStamp  = new Date().toLocaleString();
+  console.log(`There was a ${req.method} request at ${req.originalUrl} at ${timeStamp}`)
   next()
 }
 
@@ -38,8 +39,19 @@ async function validateUser(req, res, next) {
   }
 }
 
-function validatePost(req, res, next) {
+async function validatePost(req, res, next) {
   // DO YOUR MAGIC
+  try {
+    const { text } = req.body;
+    if(!text) {
+      next({status: 400, message: "missing required text field"})
+    } else {
+      next()
+    }
+  } catch (err) {
+    next(err);
+  }
+  
 }
 
 function errorHandling (err, req, res, next) {
@@ -54,4 +66,5 @@ module.exports = {
   validateUserId,
   errorHandling,
   validateUser,
+  validatePost
 }
