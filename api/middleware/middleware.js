@@ -1,5 +1,7 @@
 function logger(req, res, next) {
   // DO YOUR MAGIC
+  console.log(`There was a ${req.method} request at ${req.originalUrl} at ${Date.now}`)
+  next()
 }
 
 function validateUserId(req, res, next) {
