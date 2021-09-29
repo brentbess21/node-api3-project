@@ -52,15 +52,19 @@ router.delete('/:id', validateUserId, async (req, res, next) => {
   // this needs a middleware to verify user id
   User.remove(req.params.id)
     .then(user => {
-      console.log(user)
       res.status(200).json(user)
     })
     .catch(next)
 });
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts', validateUserId, (req, res, next) => {
   // RETURN THE ARRAY OF USER POSTS
   // this needs a middleware to verify user id
+  User.getUserPosts(req.params.id)
+    .then(messages => {
+      res.status(200).json(messages);
+    })
+    .catch(next);
 });
 
 router.post('/:id/posts', (req, res) => {
