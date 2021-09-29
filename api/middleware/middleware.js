@@ -31,8 +31,15 @@ function validatePost(req, res, next) {
   // DO YOUR MAGIC
 }
 
+function errorHandling (err, req, res, next) {
+  res.status(err.status || 500).json({
+    message: err.message,
+  })
+}
+
 // do not forget to expose these functions to other modules
 module.exports = {
   logger,
   validateUserId,
+  errorHandling,
 }
